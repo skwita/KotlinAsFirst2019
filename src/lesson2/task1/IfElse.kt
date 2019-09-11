@@ -196,6 +196,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         (maxSide * maxSide < sideOne * sideOne + sideTwo * sideTwo) -> 0
         (maxSide * maxSide > sideOne * sideOne + sideTwo * sideTwo) -> 2
         else -> -1
+
     }
 }
 
