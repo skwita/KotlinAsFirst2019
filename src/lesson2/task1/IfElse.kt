@@ -3,6 +3,8 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.PI
+import kotlin.math.acos
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -63,7 +65,17 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    when (age) {
+        11, 12, 13, 14, 15, 16, 17, 18, 19, 111, 113, 114, 115, 116, 117, 118, 119 -> return ("$age лет") // exceptions
+    }
+    when (age % 10) {
+        1 -> return ("$age год")
+        2, 3, 4 -> return ("$age года")
+        0, 5, 6, 7, 8, 9 -> return ("$age лет")
+    }
+    return ("error")
+}
 
 /**
  * Простая
@@ -76,7 +88,16 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val halfway: Double = (v1 * t1 + v2 * t2 + t3 * v3) / 2
+    val dist1: Double = v1 * t1
+    val dist2: Double = v2 * t2
+    return when {
+        dist1 >= halfway -> halfway / v1
+        (dist2 + dist1) >= halfway -> (halfway - dist1) / v2 + t1
+        else -> (halfway - dist1 - dist2) / v3 + t1 + t2
+    }
+}
 
 /**
  * Простая
@@ -91,7 +112,16 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    val rookThreat1: Boolean = (kingX == rookX1) or (kingY == rookY1)
+    val rookThreat2: Boolean = (kingX == rookX2) or (kingY == rookY2)
+    return when {
+        rookThreat1 and rookThreat2 -> 3
+        rookThreat2 -> 2
+        rookThreat1 -> 1
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -107,7 +137,18 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    val bishopThreat: Boolean =
+        ((kingX - bishopX == kingY - bishopY) or (bishopX - kingX == kingY - bishopY) or
+                (kingX - bishopX == bishopY - kingY) or (bishopX - kingX == bishopY - kingY))
+    val rookThreat: Boolean = ((kingX == rookX) or (kingY == rookY))
+    return when {
+        bishopThreat and rookThreat -> (3)
+        bishopThreat -> (2)
+        rookThreat -> (1)
+        else -> (0)
+    }
+}
 
 /**
  * Простая
@@ -117,7 +158,46 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+//    val angA = acos((b * b + c * c - a * a) / 2 * b * c)
+//    val angB = acos((a * a + c * c - b * b) / 2 * a * c)
+//    val angC = acos((b * b + a * a - c * c) / 2 * b * a)
+//    return if ((angA + angB + angC) != PI) (-1)
+//    else when {
+//        (angA < PI / 2) and (angB < PI / 2) and (angC < PI / 2) -> 0
+//        (angA == PI / 2) or (angB == PI / 2) or (angC == PI / 2) -> 1
+//        (angA > PI / 2) or (angB > PI / 2) or (angC > PI / 2) -> 2
+//        else -> -1
+
+
+    var maxSide: Double = 0.0
+    var sideOne: Double = 0.0
+    var sideTwo: Double = 0.0
+    when (max(a, max(b, c))) {
+        a -> {
+            maxSide = a
+            sideOne = b
+            sideTwo = c
+        }
+        b -> {
+            maxSide = b
+            sideOne = a
+            sideTwo = c
+        }
+        c -> {
+            maxSide = c
+            sideOne = b
+            sideTwo = a
+        }
+    }
+    if (a <= b + c) return -1
+    return when {
+        (maxSide * maxSide == sideOne * sideOne + sideTwo * sideTwo) -> 1
+        (maxSide * maxSide < sideOne * sideOne + sideTwo * sideTwo) -> 0
+        (maxSide * maxSide > sideOne * sideOne + sideTwo * sideTwo) -> 2
+        else -> -1
+    }
+}
 
 /**
  * Средняя
@@ -127,4 +207,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        (a == d) or (b == c) -> 0
+        (a == c) and (d > b) -> d - b
+        (a == c) and (b > d) -> b - d
+        ((a < c) and (b < d) and (b < c)) or ((c < a) and (d < b) and (d < a)) -> -1
+        (c < b) and (d > b) -> b - c
+        (a < d) and (b > d) -> d - a
+        (a < c) and (a < d) -> d - c
+        (c < a) and (c < b) -> a - d
+        else -> -2
+    }
+}
