@@ -18,7 +18,6 @@ fun sqr(x: Int) = x * x
  */
 fun sqr(x: Double) = x * x
 
-
 /**
  * Пример
  *
