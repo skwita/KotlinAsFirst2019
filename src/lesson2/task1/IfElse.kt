@@ -67,7 +67,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     when (age) {
-        11, 12, 13, 14, 15, 16, 17, 18, 19, 111, 113, 114, 115, 116, 117, 118, 119 -> return ("$age лет") // exceptions
+        11, 12, 13, 14, 15, 16, 17, 18, 19, 111, 112, 113, 114, 115, 116, 117, 118, 119 -> return ("$age лет") // exceptions
     }
     when (age % 10) {
         1 -> return ("$age год")
@@ -159,45 +159,33 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-//    val angA = acos((b * b + c * c - a * a) / 2 * b * c)
-//    val angB = acos((a * a + c * c - b * b) / 2 * a * c)
-//    val angC = acos((b * b + a * a - c * c) / 2 * b * a)
-//    return if ((angA + angB + angC) != PI) (-1)
-//    else when {
-//        (angA < PI / 2) and (angB < PI / 2) and (angC < PI / 2) -> 0
-//        (angA == PI / 2) or (angB == PI / 2) or (angC == PI / 2) -> 1
-//        (angA > PI / 2) or (angB > PI / 2) or (angC > PI / 2) -> 2
-//        else -> -1
-
-
-    var maxSide: Double = 0.0
-    var sideOne: Double = 0.0
-    var sideTwo: Double = 0.0
-    when (max(a, max(b, c))) {
-        a -> {
-            maxSide = a
-            sideOne = b
-            sideTwo = c
-        }
-        b -> {
-            maxSide = b
-            sideOne = a
-            sideTwo = c
-        }
-        c -> {
-            maxSide = c
-            sideOne = b
-            sideTwo = a
-        }
+    var max = 0.0
+    var sideOne = 0.0
+    var sideTwo = 0.0
+    max = maxOf(a, b, c)
+    if (max == a) {
+        sideOne = b
+        sideTwo = c
+    } else if (max == b) {
+        sideOne = a
+        sideTwo = c
+    } else {
+        sideOne = b
+        sideTwo = a
     }
-    if (a <= b + c) return -1
+
+    if (max > sideOne + sideTwo) {
+        return (-1)
+    }
+
     return when {
-        (maxSide * maxSide == sideOne * sideOne + sideTwo * sideTwo) -> 1
-        (maxSide * maxSide < sideOne * sideOne + sideTwo * sideTwo) -> 0
-        (maxSide * maxSide > sideOne * sideOne + sideTwo * sideTwo) -> 2
+        max * max == sideOne * sideOne + sideTwo * sideTwo -> 1
+        max * max >= sideOne * sideOne + sideTwo * sideTwo -> 2
+        max * max <= sideOne * sideOne + sideTwo * sideTwo -> 0
         else -> -1
-
     }
+
+
 }
 
 /**
@@ -210,14 +198,20 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-        (a == d) or (b == c) -> 0
-        (a == c) and (d > b) -> d - b
-        (a == c) and (b > d) -> b - d
-        ((a < c) and (b < d) and (b < c)) or ((c < a) and (d < b) and (d < a)) -> -1
-        (c < b) and (d > b) -> b - c
-        (a < d) and (b > d) -> d - a
-        (a < c) and (a < d) -> d - c
-        (c < a) and (c < b) -> a - d
+        (a < c) and (a < d) and (b < c) and (b < d) -> -1
+        (c < a) and (c < b) and (d < a) and (d < b) -> -1
+        (a < d) and (c == b) -> 0
+        (c < b) and (d == a) -> 0
+        (a < d) and (c < b) and (a < c) and (b < d) -> b - c
+        (a < d) and (c < b) and (c < a) and (d < b) -> d - a
+        (a == c) and (b == d) -> b - a
+        (a > c) and (b < d) and (b < c) and (a < d) -> b - a
+        (c > a) and (d < b) and (b > c) and (d < a) -> d - c
+        (a == c) and (b < d) -> b - c
+        (a == c) and (d < b) -> d - a
+        (b == d) and (a < c) -> b - c
+        (b == d) and (c < a) -> b - c
         else -> -2
     }
 }
+
