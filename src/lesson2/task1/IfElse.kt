@@ -3,10 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.PI
-import kotlin.math.acos
-import kotlin.math.max
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Пример
@@ -67,14 +64,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     when (age) {
-        11, 12, 13, 14, 15, 16, 17, 18, 19, 111, 112, 113, 114, 115, 116, 117, 118, 119 -> return ("$age лет") // exceptions
+        in 11..19, in 111..119 -> return "$age лет" // exceptions
     }
     when (age % 10) {
-        1 -> return ("$age год")
-        2, 3, 4 -> return ("$age года")
-        0, 5, 6, 7, 8, 9 -> return ("$age лет")
+        1 -> return "$age год"
+        in 2..4 -> return "$age года"
+        0, in 5..9 -> return "$age лет"
     }
-    return ("error")
+    return "error"
 }
 
 /**
@@ -89,7 +86,7 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val halfway: Double = (v1 * t1 + v2 * t2 + t3 * v3) / 2
+    val halfway = (v1 * t1 + v2 * t2 + t3 * v3) / 2
     val dist1: Double = v1 * t1
     val dist2: Double = v2 * t2
     return when {
@@ -113,10 +110,10 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    val rookThreat1: Boolean = (kingX == rookX1) or (kingY == rookY1)
-    val rookThreat2: Boolean = (kingX == rookX2) or (kingY == rookY2)
+    val rookThreat1 = (kingX == rookX1) || (kingY == rookY1)
+    val rookThreat2 = (kingX == rookX2) || (kingY == rookY2)
     return when {
-        rookThreat1 and rookThreat2 -> 3
+        rookThreat1 && rookThreat2 -> 3
         rookThreat2 -> 2
         rookThreat1 -> 1
         else -> 0
@@ -139,14 +136,13 @@ fun rookOrBishopThreatens(
     bishopX: Int, bishopY: Int
 ): Int {
     val bishopThreat: Boolean =
-        ((kingX - bishopX == kingY - bishopY) or (bishopX - kingX == kingY - bishopY) or
-                (kingX - bishopX == bishopY - kingY) or (bishopX - kingX == bishopY - kingY))
-    val rookThreat: Boolean = ((kingX == rookX) or (kingY == rookY))
+        (abs(kingX - bishopX) == abs(kingY - bishopY))
+    val rookThreat: Boolean = ((kingX == rookX) || (kingY == rookY))
     return when {
-        bishopThreat and rookThreat -> (3)
-        bishopThreat -> (2)
-        rookThreat -> (1)
-        else -> (0)
+        bishopThreat && rookThreat -> 3
+        bishopThreat -> 2
+        rookThreat -> 1
+        else -> 0
     }
 }
 
@@ -159,23 +155,12 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var max = 0.0
-    var sideOne = 0.0
-    var sideTwo = 0.0
-    max = maxOf(a, b, c)
-    if (max == a) {
-        sideOne = b
-        sideTwo = c
-    } else if (max == b) {
-        sideOne = a
-        sideTwo = c
-    } else {
-        sideOne = b
-        sideTwo = a
-    }
+    val max = maxOf(a, b, c)
+    val sideOne = minOf(a, b, c)
+    val sideTwo = a + b + c - max - sideOne
 
     if (max > sideOne + sideTwo) {
-        return (-1)
+        return -1
     }
 
     return when {
@@ -197,21 +182,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        (a < c) and (a < d) and (b < c) and (b < d) -> -1
-        (c < a) and (c < b) and (d < a) and (d < b) -> -1
-        (a < d) and (c == b) -> 0
-        (c < b) and (d == a) -> 0
-        (a < d) and (c < b) and (a < c) and (b < d) -> b - c
-        (a < d) and (c < b) and (c < a) and (d < b) -> d - a
-        (a == c) and (b == d) -> b - a
-        (a > c) and (b < d) and (b < c) and (a < d) -> b - a
-        (c > a) and (d < b) and (b > c) and (d < a) -> d - c
-        (a == c) and (b < d) -> b - c
-        (a == c) and (d < b) -> d - a
-        (b == d) and (a < c) -> b - c
-        (b == d) and (c < a) -> b - c
-        else -> -2
-    }
+    val intersection = min(d, b) - max(a, c)
+    return if (intersection >= 0) intersection
+    else -1
 }
 

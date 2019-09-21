@@ -4,6 +4,8 @@ package lesson2.task2
 
 import com.sun.org.apache.xpath.internal.operations.Bool
 import lesson1.task1.sqr
+import java.lang.Math.abs
+import java.lang.Math.sqrt
 
 /**
  * Пример
@@ -37,10 +39,9 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val diagonalThreat: Boolean =
-        ((x1 - x2) == (y1 - y2)) or ((x1 - x2) == (y1 - y2)) or ((x1 - x2) == (y2 - y1)) or ((x2 - x1) == (y2 - y1))
-    val parallelThreat: Boolean = (x1 == x2) or (y1 == y2)
-    return (diagonalThreat or parallelThreat)
+    val diagonalThreat = abs(x1 - x2) == abs(y1 - y2)
+    val parallelThreat = (x1 == x2) || (y1 == y2)
+    return (diagonalThreat || parallelThreat)
 }
 
 
@@ -51,9 +52,9 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
-    fun leap(year: Int): Boolean = ((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)
-    val isLeap: Boolean = leap(year)
-    if ((month == 2) and isLeap) {
+    fun leap(year: Int): Boolean = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)
+    val isLeap = leap(year)
+    if ((month == 2) && isLeap) {
         return (29)
     }
     return when (month) {
@@ -85,7 +86,7 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = TODO()
+): Boolean = (r2 >= sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1)
 
 /**
  * Средняя
@@ -96,12 +97,11 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return when {
-        ((a <= r) and (b <= s)) or ((a <= s) and (b <= r)) -> true
-        ((c <= r) and (b <= s)) or ((c <= s) and (b <= r)) -> true
-        ((a <= r) and (c <= s)) or ((a <= s) and (c <= r)) -> true
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+    when {
+        ((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) -> true
+        ((c <= r) && (b <= s)) || ((c <= s) && (b <= r)) -> true
+        ((a <= r) && (c <= s)) || ((a <= s) && (c <= r)) -> true
         else -> false
     }
 
-}

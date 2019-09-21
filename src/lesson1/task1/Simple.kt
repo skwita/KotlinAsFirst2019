@@ -115,10 +115,9 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     val per = percent.toDouble()
-    val p: Double = (1 + per / 100)
+    val p = (1 + per / 100)
     val temp = initial.toDouble()
-    val result = temp * p * p * p
-    return (result)
+    return temp * p * p * p
 }
 
 /**
@@ -131,6 +130,5 @@ fun numberRevert(number: Int): Int {
     val a = number % 10
     val b = number / 10 % 10
     val c = number / 100
-    val result = a * 100 + b * 10 + c
-    return (result)
+    return a * 100 + b * 10 + c
 }
