@@ -78,7 +78,7 @@ fun digitNumber(n: Int): Int {
         i += 1
         num /= 10
     }
-    return (i)
+    return i
 }
 
 /**
@@ -91,13 +91,13 @@ fun fib(n: Int): Int {
     var temp1 = 1
     var temp2 = 1
     var num = 0
-    if ((n == 1) or (n == 2)) return (1)
+    if ((n == 1) || (n == 2)) return (1)
     for (i in 3..n) {
         num = temp1 + temp2
         temp2 = temp1
         temp1 = num
     }
-    return (num)
+    return num
 }
 
 /**
@@ -109,14 +109,12 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var numOne = n
     var numTwo = m
-    var nok = 0
     while (numOne != numTwo) {
         if (numOne > numTwo) {
             numOne -= numTwo
         } else numTwo -= numOne
     }
-    nok = n * m / numOne
-    return (nok)
+    return n * m / numOne
 }
 
 /**
@@ -127,10 +125,10 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     for (i in 2..n) {
         if (n % i == 0) {
-            return (i)
+            return i
         }
     }
-    return (-1)
+    return -1
 }
 
 /**
@@ -140,9 +138,9 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     for (i in n - 1 downTo 1) {
-        if (n % i == 0) return (i)
+        if (n % i == 0) return i
     }
-    return (-1)
+    return -1
 }
 
 
@@ -157,9 +155,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     val max = max(m, n)
     val min = m + n - max
     for (i in max - 1 downTo 2) {
-        if ((max % i == 0) and (min % i == 0)) return (false)
+        if ((max % i == 0) && (min % i == 0)) return (false)
     }
-    return (true)
+    return true
 }
 
 /**
@@ -204,7 +202,7 @@ fun collatzSteps(x: Int): Int {
             i += 1
         }
     }
-    return (i)
+    return i
 }
 
 /**
@@ -226,7 +224,7 @@ fun sin(x: Double, eps: Double): Double {
         posNeg *= -1
         i += 2
     }
-    return (sum)
+    return sum
 }
 
 
@@ -257,7 +255,7 @@ fun revert(n: Int): Int {
         digit *= 10
         initNumber /= 10
     }
-    return (finalNumber)
+    return finalNumber
 }
 
 /**
@@ -290,7 +288,7 @@ fun hasDifferentDigits(n: Int): Boolean {
             num /= 10
         }
     }
-    return (hasDifDig)
+    return hasDifDig
 }
 
 /**
