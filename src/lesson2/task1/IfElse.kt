@@ -66,12 +66,12 @@ fun ageDescription(age: Int): String {
     when (age) {
         in 11..19, in 111..119 -> return "$age лет" // exceptions
     }
-    when (age % 10) {
-        1 -> return "$age год"
-        in 2..4 -> return "$age года"
-        0, in 5..9 -> return "$age лет"
+    return when (age % 10) {
+        1 -> "$age год"
+        in 2..4 -> "$age года"
+        0, in 5..9 -> "$age лет"
+        else -> "error"
     }
-    return "error"
 }
 
 /**
@@ -87,8 +87,8 @@ fun timeForHalfWay(
     t3: Double, v3: Double
 ): Double {
     val halfway = (v1 * t1 + v2 * t2 + t3 * v3) / 2
-    val dist1: Double = v1 * t1
-    val dist2: Double = v2 * t2
+    val dist1 = v1 * t1
+    val dist2 = v2 * t2
     return when {
         dist1 >= halfway -> halfway / v1
         (dist2 + dist1) >= halfway -> (halfway - dist1) / v2 + t1
@@ -135,9 +135,9 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    val bishopThreat: Boolean =
+    val bishopThreat =
         (abs(kingX - bishopX) == abs(kingY - bishopY))
-    val rookThreat: Boolean = ((kingX == rookX) || (kingY == rookY))
+    val rookThreat = ((kingX == rookX) || (kingY == rookY))
     return when {
         bishopThreat && rookThreat -> 3
         bishopThreat -> 2
