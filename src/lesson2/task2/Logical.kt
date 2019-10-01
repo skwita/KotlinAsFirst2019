@@ -27,8 +27,7 @@ fun isNumberHappy(number: Int): Boolean {
     val num2 = number / 100 % 10
     val num3 = number / 10 % 10
     val num4 = number % 10
-    val happy = (num1 + num2 == num3 + num4)
-    return (happy)
+    return num1 + num2 == num3 + num4
 }
 
 /**
