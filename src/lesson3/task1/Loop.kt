@@ -216,10 +216,9 @@ fun sin(x: Double, eps: Double): Double {
     var i = 1
     var num = x
     var posNeg = 1
-    while (abs(num) >= 2 * PI) {
-        if (num > 0) {
-            num -= 2 * PI
-        } else num += 2 * PI
+    num = abs(num)
+    while (num >= 2 * PI) {
+        num -= 2 * PI
     }
     var temp = posNeg * num.pow(i) / factorial(i)
     while (abs(temp) >= eps) {
@@ -246,10 +245,9 @@ fun cos(x: Double, eps: Double): Double {
     var i = 2
     var posNeg = -1
     var num = x
-    while (abs(num) >= 2 * PI) {
-        if (num > 0) {
-            num -= 2 * PI
-        } else num += 2 * PI
+    num = abs(num)
+    while (num >= 2 * PI) {
+        num -= 2 * PI
     }
     var temp = posNeg * num.pow(i) / factorial(i)
     while (abs(temp) >= eps) {
@@ -301,16 +299,15 @@ fun isPalindrome(n: Int): Boolean = TODO()
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var num = n
-    var hasDifDig = false
     while (num >= 10) {
         if (num % 10 == num / 10 % 10) {
             num /= 10
         } else {
-            hasDifDig = true
+            return true
             num /= 10
         }
     }
-    return hasDifDig
+    return false
 }
 
 /**
@@ -356,7 +353,7 @@ fun fibSequenceDigit(n: Int): Int {
     var dif: Int
     var i = 0
     while (count < n) { //reaching the number, counting total digits
-        fib = lesson3.task1.fib(i)
+        fib = fib(i)
         dif = 0
         while (fib > 0) { // counting digits in the fib number
             fib /= 10
@@ -365,6 +362,6 @@ fun fibSequenceDigit(n: Int): Int {
         count += dif
         i += 1
     }
-    return (lesson3.task1.fib(i - 1) / 10.0.pow(count - n) % 10).toInt()
+    return (fib(i - 1) / 10.0.pow(count - n) % 10).toInt()
 }
 

@@ -5,6 +5,8 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
 import java.lang.Math.pow
+import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 /**
@@ -149,7 +151,6 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val mean = mean(list)
-    if (list.isEmpty()) return list
     for (i in 0 until list.size) {
         list[i] -= mean
     }
@@ -166,7 +167,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Int>, b: List<Int>): Int {
     if ((a.isEmpty()) || (b.isEmpty())) return 0
     var sum = 0
-    for (i in 0 until a.size) {
+    for (i in a.indices) {
         sum += a[i] * b[i]
     }
     return sum
@@ -182,10 +183,9 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    if (p.isEmpty()) return 0
     var sum = 0.0
-    for (i in 0 until p.size) {
-        sum += p[i] * pow(x.toDouble(), i.toDouble())
+    for (i in p.indices) {
+        sum += p[i] * x.toDouble().pow(i.toDouble())
     }
     return sum.toInt()
 }
@@ -201,7 +201,6 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    if (list.isEmpty()) return list
     var sum = 0
     for (i in 0 until list.size) {
         sum += list[i]
@@ -220,7 +219,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
 fun factorize(n: Int): List<Int> {
     var div: Int
     var num = n
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     while (num > 1) {
         div = minDivisor(num)
         result.add(div)
@@ -237,8 +236,8 @@ fun factorize(n: Int): List<Int> {
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
 fun factorizeToString(n: Int): String {
-    var list = factorize(n)
-    var result: String = ""
+    val list = factorize(n)
+    var result = ""
     var temp = 0
     for (i in 0 until list.size - 1) {
         temp = list[i]
@@ -256,7 +255,7 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     var num = n
     while (num > 0) {
         result.add(0, num % base)
@@ -276,15 +275,54 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
-//    var list = convert(n, base)
-//    list.toString()
-//    for (i in 0 until list.size) {
-//        if (list[i] > 9) {
-//            list[i] = '61 + abs(10 - list[i])'
-//        }
-//    }
-//}
+fun convertToString(n: Int, base: Int): String {
+    var list = convert(n, base)
+    var result = ""
+    for (i in list.indices) { //можно сделать через юникод?
+        when (list[i]) {
+            0 -> result += "0"
+            1 -> result += "1"
+            2 -> result += "2"
+            3 -> result += "3"
+            4 -> result += "4"
+            5 -> result += "5"
+            6 -> result += "6"
+            7 -> result += "7"
+            8 -> result += "8"
+            9 -> result += "9"
+            10 -> result += "a"
+            11 -> result += "b"
+            12 -> result += "c"
+            13 -> result += "d"
+            14 -> result += "e"
+            15 -> result += "f"
+            16 -> result += "g"
+            17 -> result += "h"
+            18 -> result += "i"
+            19 -> result += "j"
+            20 -> result += "k"
+            21 -> result += "l"
+            22 -> result += "m"
+            23 -> result += "n"
+            24 -> result += "o"
+            25 -> result += "p"
+            26 -> result += "q"
+            27 -> result += "r"
+            28 -> result += "s"
+            29 -> result += "t"
+            30 -> result += "u"
+            31 -> result += "v"
+            32 -> result += "w"
+            33 -> result += "x"
+            34 -> result += "y"
+            35 -> result += "z"
+        }
+    }
+    return result
+}
+
+
+
 
 /**
  * Средняя
@@ -293,7 +331,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0.0
+    for (i in digits.reversed().indices) {
+        result += digits.reversed()[i].toDouble() * (base.toDouble().pow(i))
+    }
+    return result.toInt()
+}
 
 /**
  * Сложная
@@ -326,4 +370,140 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var num = n
+    val digits = mutableListOf<Int>()
+    var result = ""
+    var i = 5
+    for (q in 0..5) {
+        digits[q] = -1
+    }
+    while (num > 0) {
+        digits[i] = (num % 10)
+        num /= 10
+        i--
+    }
+
+    when (digits[5]) {
+        -1 -> result += ""
+        1 -> result += "сто "
+        2 -> result += "двести "
+        3 -> result += "триста "
+        4 -> result += "четыреста "
+        5 -> result += "пятьсот "
+        6 -> result += "шестьсот "
+        7 -> result += "семьсотсот "
+        8 -> result += "восемьсот "
+        9 -> result += "девятьсот "
+    }
+
+    when (digits[4]) {
+        -1 -> result += ""
+        1 -> when (digits[3]) {
+            -1 -> result += ""
+            0 -> result += "десять "
+            1 -> result += "одиннадцать "
+            2 -> result += "двенадцать "
+            3 -> result += "тринадцать "
+            4 -> result += "четырнадцать "
+            5 -> result += "пятнадцать "
+            6 -> result += "шестнадцать "
+            7 -> result += "семнадцать "
+            8 -> result += "восемнадцать "
+            9 -> result += "девятнадцать "
+        }
+        2 -> result += "двадцать "
+        3 -> result += "тридцать "
+        4 -> result += "сорок "
+        5 -> result += "пятьдесят "
+        6 -> result += "шестьдесят "
+        7 -> result += "семдесят "
+        8 -> result += "восемьдесят "
+        9 -> result += "девяносто "
+    }
+    if (digits[4] != 1) {
+        when (digits[3]) {
+            -1 -> result += ""
+            1 -> result += "одна "
+            2 -> result += "две "
+            3 -> result += "три "
+            4 -> result += "четыре "
+            5 -> result += "пять "
+            6 -> result += "шесть "
+            7 -> result += "семь "
+            8 -> result += "восемь "
+            9 -> result += "девять "
+        }
+    } else result += "тысяч "
+
+    if ((digits[4] != 1) && (n >= 1000)) {
+        when (digits[3]) {
+            -1 -> result += "тысяч"
+            0 -> result += "тысяч "
+            1 -> result += "тысяча "
+            in 2..4 -> result += "тысячи "
+            in 5..9 -> result += "тысяч "
+        }
+    }
+
+    when (digits[2]) {
+        -1 -> result += ""
+        1 -> result += "сто "
+        2 -> result += "двести "
+        3 -> result += "триста "
+        4 -> result += "четыреста "
+        5 -> result += "пятьсот "
+        6 -> result += "шестьсот "
+        7 -> result += "семьсотсот "
+        8 -> result += "восемьсот "
+        9 -> result += "девятьсот "
+    }
+
+    if (digits[1] == 1) {
+        when (digits[0]) {
+            -1 -> result += ""
+            0 -> result += "десять "
+            1 -> result += "одиннадцать "
+            2 -> result += "двенадцать "
+            3 -> result += "тринадцать "
+            4 -> result += "четырнадцать "
+            5 -> result += "пятнадцать "
+            6 -> result += "шестнадцать "
+            7 -> result += "семнадцать "
+            8 -> result += "восемнадцать "
+            9 -> result += "девятнадцать "
+        }
+    } else {
+        when (digits[1]) {
+            -1 -> result += ""
+            2 -> result += "двадцать "
+            3 -> result += "тридцать "
+            4 -> result += "сорок "
+            5 -> result += "пятьдесят "
+            6 -> result += "шестьдесят "
+            7 -> result += "семдесят "
+            8 -> result += "восемьдесят "
+            9 -> result += "девяносто "
+        }
+        when (digits[0]) {
+            -1 -> result += ""
+            1 -> result += "один"
+            2 -> result += "два"
+            3 -> result += "три"
+            4 -> result += "четыре"
+            5 -> result += "пять"
+            6 -> result += "шесть"
+            7 -> result += "семь"
+            8 -> result += "восемь"
+            9 -> result += "девять"
+        }
+
+    }
+    println(digits)
+    println(result)
+    return result
+}
+
+fun main() {
+    russian(100001)
+}
