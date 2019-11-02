@@ -322,8 +322,6 @@ fun convertToString(n: Int, base: Int): String {
 }
 
 
-
-
 /**
  * Средняя
  *
@@ -374,119 +372,86 @@ fun russian(n: Int): String {
     var num = n
     val digits = mutableListOf<Int>()
     var result = ""
-    var i = 5
-    for (q in 0..5) {
-        digits[q] = -1
+    var i = 0
+    for (j in 0..6) {
+        digits[j] = 0
     }
     while (num > 0) {
         digits[i] = (num % 10)
         num /= 10
-        i--
+        i++
     }
 
-    when (digits[5]) {
-        -1 -> result += ""
-        1 -> result += "сто "
-        2 -> result += "двести "
-        3 -> result += "триста "
-        4 -> result += "четыреста "
-        5 -> result += "пятьсот "
-        6 -> result += "шестьсот "
-        7 -> result += "семьсотсот "
-        8 -> result += "восемьсот "
-        9 -> result += "девятьсот "
-    }
-
-    when (digits[4]) {
-        -1 -> result += ""
-        1 -> when (digits[3]) {
-            -1 -> result += ""
-            0 -> result += "десять "
-            1 -> result += "одиннадцать "
-            2 -> result += "двенадцать "
-            3 -> result += "тринадцать "
-            4 -> result += "четырнадцать "
-            5 -> result += "пятнадцать "
-            6 -> result += "шестнадцать "
-            7 -> result += "семнадцать "
-            8 -> result += "восемнадцать "
-            9 -> result += "девятнадцать "
+    fun half(numOne: Int, numTwo: Int, numThree: Int): String {
+        when (numOne) {
+            1 -> result += "сто "
+            2 -> result += "двести "
+            3 -> result += "триста "
+            4 -> result += "четыреста "
+            5 -> result += "пятьсот "
+            6 -> result += "шестьсот "
+            7 -> result += "семьсотсот "
+            8 -> result += "восемьсот "
+            9 -> result += "девятьсот "
         }
-        2 -> result += "двадцать "
-        3 -> result += "тридцать "
-        4 -> result += "сорок "
-        5 -> result += "пятьдесят "
-        6 -> result += "шестьдесят "
-        7 -> result += "семдесят "
-        8 -> result += "восемьдесят "
-        9 -> result += "девяносто "
-    }
-    if (digits[4] != 1) {
-        when (digits[3]) {
-            -1 -> result += ""
-            1 -> result += "одна "
-            2 -> result += "две "
-            3 -> result += "три "
-            4 -> result += "четыре "
-            5 -> result += "пять "
-            6 -> result += "шесть "
-            7 -> result += "семь "
-            8 -> result += "восемь "
-            9 -> result += "девять "
+
+        if (numTwo == 1) {
+            when (numThree) {
+                0 -> result += "десять "
+                1 -> result += "одиннадцать "
+                2 -> result += "двенадцать "
+                3 -> result += "тринадцать "
+                4 -> result += "четырнадцать "
+                5 -> result += "пятнадцать "
+                6 -> result += "шестнадцать "
+                7 -> result += "семнадцать "
+                8 -> result += "восемнадцать "
+                9 -> result += "девятнадцать "
+            }
+        } else {
+            when (numTwo) {
+                2 -> result += "двадцать "
+                3 -> result += "тридцать "
+                4 -> result += "сорок "
+                5 -> result += "пятьдесят "
+                6 -> result += "шестьдесят "
+                7 -> result += "семдесят "
+                8 -> result += "восемьдесят "
+                9 -> result += "девяносто "
+            }
         }
-    } else result += "тысяч "
+        return result
 
-    if ((digits[4] != 1) && (n >= 1000)) {
-        when (digits[3]) {
-            -1 -> result += "тысяч"
-            0 -> result += "тысяч "
-            1 -> result += "тысяча "
-            in 2..4 -> result += "тысячи "
-            in 5..9 -> result += "тысяч "
+
+    }
+    if (n >= 1000) {
+        result += half(digits[5], digits[4], digits[3])
+        if (digits[4] != 1) {
+            when (digits[3]) {
+                1 -> result += "одна "
+                2 -> result += "две "
+                3 -> result += "три "
+                4 -> result += "четыре "
+                5 -> result += "пять "
+                6 -> result += "шесть "
+                7 -> result += "семь "
+                8 -> result += "восемь "
+                9 -> result += "девять "
+            }
+        }
+        result += if (digits[4] == 1) {
+            "тысяч "
+        } else {
+            when (digits[3]) {
+                1 -> "тысяча "
+                in 2..4 -> "тысячи "
+                else -> "тысяч "
+            }
         }
     }
-
-    when (digits[2]) {
-        -1 -> result += ""
-        1 -> result += "сто "
-        2 -> result += "двести "
-        3 -> result += "триста "
-        4 -> result += "четыреста "
-        5 -> result += "пятьсот "
-        6 -> result += "шестьсот "
-        7 -> result += "семьсотсот "
-        8 -> result += "восемьсот "
-        9 -> result += "девятьсот "
-    }
-
-    if (digits[1] == 1) {
+    result += half(digits[2], digits[1], digits[0])
+    if (digits[1] != 1) {
         when (digits[0]) {
-            -1 -> result += ""
-            0 -> result += "десять "
-            1 -> result += "одиннадцать "
-            2 -> result += "двенадцать "
-            3 -> result += "тринадцать "
-            4 -> result += "четырнадцать "
-            5 -> result += "пятнадцать "
-            6 -> result += "шестнадцать "
-            7 -> result += "семнадцать "
-            8 -> result += "восемнадцать "
-            9 -> result += "девятнадцать "
-        }
-    } else {
-        when (digits[1]) {
-            -1 -> result += ""
-            2 -> result += "двадцать "
-            3 -> result += "тридцать "
-            4 -> result += "сорок "
-            5 -> result += "пятьдесят "
-            6 -> result += "шестьдесят "
-            7 -> result += "семдесят "
-            8 -> result += "восемьдесят "
-            9 -> result += "девяносто "
-        }
-        when (digits[0]) {
-            -1 -> result += ""
             1 -> result += "один"
             2 -> result += "два"
             3 -> result += "три"
@@ -497,13 +462,6 @@ fun russian(n: Int): String {
             8 -> result += "восемь"
             9 -> result += "девять"
         }
-
     }
-    println(digits)
-    println(result)
     return result
-}
-
-fun main() {
-    russian(100001)
 }

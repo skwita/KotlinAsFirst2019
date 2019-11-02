@@ -8,6 +8,7 @@ import kotlin.math.PI
 import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.sqrt
+import lesson1.task1.sqr
 
 
 /**
@@ -74,9 +75,9 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var num = n
+    var num = abs(n)
     var i = 1
-    while (abs(num) >= 10) {
+    while (num >= 10) {
         i += 1
         num /= 10
     }
@@ -217,9 +218,7 @@ fun sin(x: Double, eps: Double): Double {
     var num = x
     var posNeg = 1
     num = abs(num)
-    while (num >= 2 * PI) {
-        num -= 2 * PI
-    }
+    num %= (2 * PI)
     var temp = posNeg * num.pow(i) / factorial(i)
     while (abs(temp) >= eps) {
         temp = posNeg * num.pow(i) / factorial(i)
@@ -246,9 +245,7 @@ fun cos(x: Double, eps: Double): Double {
     var posNeg = -1
     var num = x
     num = abs(num)
-    while (num >= 2 * PI) {
-        num -= 2 * PI
-    }
+    num %= (2 * PI)
     var temp = posNeg * num.pow(i) / factorial(i)
     while (abs(temp) >= eps) {
         temp = posNeg * num.pow(i) / factorial(i)
@@ -325,7 +322,7 @@ fun squareSequenceDigit(n: Int): Int {
     var dif: Int
     var i = 0
     while (count < n) { //reaching the number, counting total digits
-        sqr = lesson1.task1.sqr(i)
+        sqr = sqr(i)
         dif = 0
         while (sqr > 0) { // counting digits in the sqr number
             sqr /= 10
@@ -335,7 +332,7 @@ fun squareSequenceDigit(n: Int): Int {
         i += 1
     }
 
-    return (lesson1.task1.sqr(i - 1) / 10.0.pow(count - n) % 10).toInt()
+    return (sqr(i - 1) / 10.0.pow(count - n) % 10).toInt()
 }
 
 /**
