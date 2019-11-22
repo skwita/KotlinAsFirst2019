@@ -5,6 +5,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
 import java.lang.Math.pow
+import java.lang.StringBuilder
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -238,11 +239,13 @@ fun factorize(n: Int): List<Int> {
 fun factorizeToString(n: Int): String {
     val list = factorize(n)
     var result = ""
+    val sb = StringBuilder()
     var temp = 0
     for (i in 0 until list.size - 1) {
         temp = list[i]
-        result += "$temp*"
+        sb.append(temp).append("*")
     }
+    result = sb.toString()
     result += list.last()
     return result
 }
@@ -259,12 +262,13 @@ fun convert(n: Int, base: Int): List<Int> {
     var num = n
     if (n != 0) {
         while (num > 0) {
-            result.add(0, num % base)
+            result.add(num % base)
             num /= base
         }
     } else {
-        result.add(0,0)
+        result.add(0)
     }
+    result.reverse()
     return result
 }
 
@@ -280,46 +284,13 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-    var list = convert(n, base)
+    val list = convert(n, base)
     var result = ""
-    for (i in list.indices) { //можно сделать через юникод?
-        when (list[i]) {
-            0 -> result += "0"
-            1 -> result += "1"
-            2 -> result += "2"
-            3 -> result += "3"
-            4 -> result += "4"
-            5 -> result += "5"
-            6 -> result += "6"
-            7 -> result += "7"
-            8 -> result += "8"
-            9 -> result += "9"
-            10 -> result += "a"
-            11 -> result += "b"
-            12 -> result += "c"
-            13 -> result += "d"
-            14 -> result += "e"
-            15 -> result += "f"
-            16 -> result += "g"
-            17 -> result += "h"
-            18 -> result += "i"
-            19 -> result += "j"
-            20 -> result += "k"
-            21 -> result += "l"
-            22 -> result += "m"
-            23 -> result += "n"
-            24 -> result += "o"
-            25 -> result += "p"
-            26 -> result += "q"
-            27 -> result += "r"
-            28 -> result += "s"
-            29 -> result += "t"
-            30 -> result += "u"
-            31 -> result += "v"
-            32 -> result += "w"
-            33 -> result += "x"
-            34 -> result += "y"
-            35 -> result += "z"
+    for (i in list.indices) {
+        if (list[i] < 10) {
+            result += list[i].toString()
+        } else {
+            result += 'a' - 10 + list[i]
         }
     }
     return result
@@ -335,8 +306,9 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0.0
-    for (i in digits.reversed().indices) {
-        result += digits.reversed()[i].toDouble() * (base.toDouble().pow(i))
+    val digs = digits.reversed()
+    for (i in digs.indices) {
+        result += digs[i].toDouble() * (base.toDouble().pow(i))
     }
     return result.toInt()
 }

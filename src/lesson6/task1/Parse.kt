@@ -2,6 +2,13 @@
 
 package lesson6.task1
 
+import kotlinx.html.InputFormTarget
+import lesson1.task1.numberRevert
+import lesson2.task2.daysInMonth
+import lesson8.task1.pathBetweenHexes
+import java.lang.NumberFormatException
+import java.util.*
+
 /**
  * Пример
  *
@@ -69,7 +76,58 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    fun monthToDigit(a: String): Int {
+        return when (a) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> -1
+        }
+    }
+
+    val parts = str.split(" ")
+    val e = NumberFormatException()
+    val result = mutableListOf<String>()
+    val day = parts[0]
+    try {
+        if (parts.size != 3) throw e
+        val days = daysInMonth(monthToDigit(parts[1]), parts[2].toInt())
+        if (parts[0].toInt() <= days) {
+            if (parts[0].toInt() < 10) result.add("0$day") else result.add(day)
+            when (parts[1]) {
+                "января" -> result.add("01")
+                "февраля" -> result.add("02")
+                "марта" -> result.add("03")
+                "апреля" -> result.add("04")
+                "мая" -> result.add("05")
+                "июня" -> result.add("06")
+                "июля" -> result.add("07")
+                "августа" -> result.add("08")
+                "сентября" -> result.add("09")
+                "октября" -> result.add("10")
+                "ноября" -> result.add("11")
+                "декабря" -> result.add("12")
+                else -> throw e
+            }
+            result.add(parts[2])
+            return (result.joinToString(separator = "."))
+        } else {
+            throw e
+        }
+    } catch (e: NumberFormatException) {
+        return ("")
+    }
+}
 
 /**
  * Средняя
@@ -81,7 +139,40 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    val test = parts[0].toIntOrNull() ?: return ""
+    val e = NumberFormatException()
+    val result = mutableListOf<String>()
+    val days = daysInMonth(parts[1].toInt(), parts[2].toInt())
+    try {
+        if (days >= parts[0].toInt()) {
+            result.add(parts[0].toInt().toString())
+        } else {
+            throw e
+        }
+        when (parts[1]) {
+            "01" -> result.add("января")
+            "02" -> result.add("февраля")
+            "03" -> result.add("марта")
+            "04" -> result.add("апреля")
+            "05" -> result.add("мая")
+            "06" -> result.add("июня")
+            "07" -> result.add("июля")
+            "08" -> result.add("августа")
+            "09" -> result.add("сентября")
+            "10" -> result.add("октября")
+            "11" -> result.add("ноября")
+            "12" -> result.add("декабря")
+            else -> throw e
+        }
+        result.add(parts[2])
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return (result.joinToString(separator = " "))
+}
 
 /**
  * Средняя
@@ -109,7 +200,20 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var parts = jumps.split(" ")
+    var maxValue = -1
+    for (part in parts) {
+
+        if ((part == "-") || (part == "%")) {
+
+        } else {
+            var temp: Int? = part.toIntOrNull() ?: return -1
+            if (part.toInt() > maxValue) maxValue = part.toInt()
+        }
+    }
+    return maxValue
+}
 
 /**
  * Сложная

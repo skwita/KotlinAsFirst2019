@@ -218,7 +218,9 @@ fun sin(x: Double, eps: Double): Double {
     var num = x
     var posNeg = 1
     num = abs(num)
-    num %= (2 * PI)
+    while (num >= 2*PI) {
+        num -= 2*PI
+    }
     var temp = posNeg * num.pow(i) / factorial(i)
     while (abs(temp) >= eps) {
         temp = posNeg * num.pow(i) / factorial(i)
@@ -301,7 +303,6 @@ fun hasDifferentDigits(n: Int): Boolean {
             num /= 10
         } else {
             return true
-            num /= 10
         }
     }
     return false
