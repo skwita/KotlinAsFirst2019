@@ -142,7 +142,7 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
-    val test = parts[0].toIntOrNull() ?: return ""
+    parts[0].toIntOrNull() ?: return ""
     val e = NumberFormatException()
     val result = mutableListOf<String>()
     val days = daysInMonth(parts[1].toInt(), parts[2].toInt())
@@ -201,14 +201,12 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    var parts = jumps.split(" ")
+    val parts = jumps.split(" ")
     var maxValue = -1
     for (part in parts) {
 
-        if ((part == "-") || (part == "%")) {
-
-        } else {
-            var temp: Int? = part.toIntOrNull() ?: return -1
+        if ((part != "-") && (part != "%")) {
+            part.toIntOrNull() ?: return -1
             if (part.toInt() > maxValue) maxValue = part.toInt()
         }
     }
@@ -227,7 +225,7 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var parts = jumps.split(" ")
+    val parts = jumps.split(" ")
     var maxValue = -1
     for (i in 1 until parts.size step 2) {
         if ((parts[i].contains(Regex("""\+"""))) && (parts[i - 1].toInt() > maxValue)) {
@@ -258,16 +256,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var parts = str.split(" ")
-    var firstDuplicate: String
-    var result = -1
+    val temp = str.toLowerCase()
+    val parts = temp.split(" ")
+    var result = 0
+    if (parts.size == 1) return -1
     for (i in parts.indices) {
         if (parts[i] == parts[i + 1]) {
-            firstDuplicate = parts[i]
-            break
+            return result
         }
+        result += parts[i].length + 1
     }
-    result = Regex().find(str).find()
+    return -1
 }
 
 /**
