@@ -226,7 +226,16 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var parts = jumps.split(" ")
+    var maxValue = -1
+    for (i in 1 until parts.size step 2) {
+        if ((parts[i].contains(Regex("""\+"""))) && (parts[i - 1].toInt() > maxValue)) {
+            maxValue = parts[i - 1].toInt()
+        }
+    }
+    return maxValue
+}
 
 /**
  * Сложная
@@ -248,7 +257,18 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var parts = str.split(" ")
+    var firstDuplicate: String
+    var result = -1
+    for (i in parts.indices) {
+        if (parts[i] == parts[i + 1]) {
+            firstDuplicate = parts[i]
+            break
+        }
+    }
+    result = Regex().find(str).find()
+}
 
 /**
  * Сложная
