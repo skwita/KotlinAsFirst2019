@@ -218,8 +218,8 @@ fun sin(x: Double, eps: Double): Double {
     var num = x
     var posNeg = 1
     num = abs(num)
-    while (num >= 2*PI) {
-        num -= 2*PI
+    while (num >= 2 * PI) {
+        num -= 2 * PI
     }
     var temp = posNeg * num.pow(i) / factorial(i)
     while (abs(temp) >= eps) {
@@ -228,7 +228,7 @@ fun sin(x: Double, eps: Double): Double {
         i += 2
         posNeg *= -1
     }
-    return sum
+    return sum * -1
 }
 
 

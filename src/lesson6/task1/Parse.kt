@@ -103,7 +103,7 @@ fun dateStrToDigit(str: String): String {
         if (parts.size != 3) throw e
         val days = daysInMonth(monthToDigit(parts[1]), parts[2].toInt())
         if (parts[0].toInt() <= days) {
-            if (parts[0].toInt() < 10) result.add("0$day") else result.add(day)
+            if ((parts[0].toInt() < 10) && (parts[0].length != 2)) result.add("0$day") else result.add(day)
             when (parts[1]) {
                 "января" -> result.add("01")
                 "февраля" -> result.add("02")
