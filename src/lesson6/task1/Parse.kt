@@ -258,13 +258,15 @@ fun plusMinus(expression: String): Int = TODO()
 fun firstDuplicateIndex(str: String): Int {
     val temp = str.toLowerCase()
     val parts = temp.split(" ")
-    var result = 0
+    var result = -1
+    var previousWord = ""
     if (parts.size == 1) return -1
-    for (i in parts.indices) {
-        if (parts[i] == parts[i + 1]) {
-            return result
+    for (part in parts) {
+        if (part == previousWord) {
+            return result - part.length
         }
-        result += parts[i].length + 1
+        result += part.length + 1
+        previousWord = part
     }
     return -1
 }
