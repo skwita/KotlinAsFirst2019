@@ -76,6 +76,14 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+
+fun isNum(inp: String): Boolean {
+    for (c in inp) {
+        if (!c.isDigit()) return false
+    }
+    return true
+}
+
 fun dateStrToDigit(str: String): String {
     fun monthToDigit(a: String): Int {
         return when (a) {
@@ -98,8 +106,10 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     val result = mutableListOf<String>()
     val day = parts[0]
-
     if (parts.size != 3) return ""
+    val checkOne = isNum(parts[0])
+    val checkTwo = isNum(parts[2])
+    if (!(checkOne && checkTwo)) return ""
     val days = daysInMonth(monthToDigit(parts[1]), parts[2].toInt())
     return if (parts[0].toInt() <= days) {
         if ((parts[0].toInt() < 10) && (parts[0].length != 2)) result.add("0$day") else result.add(day)
