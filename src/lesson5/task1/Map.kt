@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.sorted
+
 /**
  * Пример
  *
@@ -91,7 +93,17 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val result = mutableMapOf<Int, MutableList<String>>()
+    for ((key, value) in grades) {
+        if (result[value] != null) {
+            result[value]?.add(key)
+        } else {
+            result[value] = mutableListOf(key)
+        }
+    }
+    return result
+}
 
 /**
  * Простая
@@ -289,7 +301,19 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    var first = -1
+    var second = -1
+    for (i in list.indices) {
+        if (list[i] <= number) {
+            if ((list.contains(number - list[i])) && (i != list.indexOf(number - list[i]))) {
+                first = i
+                second = list.indexOf(number - list[i])
+            }
+        }
+    }
+    return (first to second).sorted()
+}
 
 /**
  * Очень сложная
