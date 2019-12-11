@@ -112,9 +112,9 @@ fun dateStrToDigit(str: String): String {
     if (!(checkOne && checkTwo)) return ""
     val days = daysInMonth(monthToDigit(parts[1]), parts[2].toInt())
     return if (parts[0].toInt() <= days) {
-        if ((parts[0].toInt() < 10) && (parts[0].length != 2)) result.add("0$day") else result.add(day)
+        result.add(twoDigitStr(day.toInt()))
         val months = monthToDigit(parts[1])
-        if ((months < 10) && (months.toString().length != 2)) result.add("0$months") else result.add(months.toString())
+        result.add(twoDigitStr(months))
         result.add(parts[2])
         (result.joinToString(separator = "."))
     } else {

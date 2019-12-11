@@ -238,9 +238,9 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     val list = factorize(n)
-    var result = ""
+    var result: String
     val sb = StringBuilder()
-    var temp = 0
+    var temp: Int
     for (i in 0 until list.size - 1) {
         temp = list[i]
         sb.append(temp).append("*")
@@ -344,100 +344,4 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String {
-    var num = n
-    val digits = mutableListOf<Int>()
-    var result = ""
-    var i = 0
-    for (j in 0..6) {
-        digits[j] = 0
-    }
-    while (num > 0) {
-        digits[i] = (num % 10)
-        num /= 10
-        i++
-    }
-
-    fun half(numOne: Int, numTwo: Int, numThree: Int): String {
-        when (numOne) {
-            1 -> result += "сто "
-            2 -> result += "двести "
-            3 -> result += "триста "
-            4 -> result += "четыреста "
-            5 -> result += "пятьсот "
-            6 -> result += "шестьсот "
-            7 -> result += "семьсотсот "
-            8 -> result += "восемьсот "
-            9 -> result += "девятьсот "
-        }
-
-        if (numTwo == 1) {
-            when (numThree) {
-                0 -> result += "десять "
-                1 -> result += "одиннадцать "
-                2 -> result += "двенадцать "
-                3 -> result += "тринадцать "
-                4 -> result += "четырнадцать "
-                5 -> result += "пятнадцать "
-                6 -> result += "шестнадцать "
-                7 -> result += "семнадцать "
-                8 -> result += "восемнадцать "
-                9 -> result += "девятнадцать "
-            }
-        } else {
-            when (numTwo) {
-                2 -> result += "двадцать "
-                3 -> result += "тридцать "
-                4 -> result += "сорок "
-                5 -> result += "пятьдесят "
-                6 -> result += "шестьдесят "
-                7 -> result += "семдесят "
-                8 -> result += "восемьдесят "
-                9 -> result += "девяносто "
-            }
-        }
-        return result
-
-
-    }
-    if (n >= 1000) {
-        result += half(digits[5], digits[4], digits[3])
-        if (digits[4] != 1) {
-            when (digits[3]) {
-                1 -> result += "одна "
-                2 -> result += "две "
-                3 -> result += "три "
-                4 -> result += "четыре "
-                5 -> result += "пять "
-                6 -> result += "шесть "
-                7 -> result += "семь "
-                8 -> result += "восемь "
-                9 -> result += "девять "
-            }
-        }
-        result += if (digits[4] == 1) {
-            "тысяч "
-        } else {
-            when (digits[3]) {
-                1 -> "тысяча "
-                in 2..4 -> "тысячи "
-                else -> "тысяч "
-            }
-        }
-    }
-    result += half(digits[2], digits[1], digits[0])
-    if (digits[1] != 1) {
-        when (digits[0]) {
-            1 -> result += "один"
-            2 -> result += "два"
-            3 -> result += "три"
-            4 -> result += "четыре"
-            5 -> result += "пять"
-            6 -> result += "шесть"
-            7 -> result += "семь"
-            8 -> result += "восемь"
-            9 -> result += "девять"
-        }
-    }
-    return result
-}
+fun russian(n: Int): String = TODO()
