@@ -2,6 +2,7 @@
 
 package lesson8.task2
 
+import lesson6.task1.isNum
 import java.lang.IllegalArgumentException
 
 
@@ -41,7 +42,7 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if (notation.length != 2) throw IllegalArgumentException()
+    if ((notation.length != 2) && (isNum(notation[1].toString()))) throw IllegalArgumentException()
     val numLetter = listOf("a", "b", "c", "d", "e", "f", "g", "h")
     return Square(numLetter.indexOf((notation[0] + 1).toString()), notation[1].toString().toInt())
 }
@@ -71,9 +72,11 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (start == end) return 0
-    if ((start.column == end.column) || (start.row == end.row)) return 1
-    return 2
+    if ((start.inside() && (end.inside()))) {
+        if (start == end) return 0
+        if ((start.column == end.column) || (start.row == end.row)) return 1
+        return 2
+    } else throw IllegalArgumentException()
 }
 
 /**

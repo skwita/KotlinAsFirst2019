@@ -16,34 +16,8 @@ import java.io.File
  * их следует сохранить и в выходном файле
  */
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
-    val outputStream = File(outputName).bufferedWriter()
-    var currentLineLength = 0
-    for (line in File(inputName).readLines()) {
-        if (line.isEmpty()) {
-            outputStream.newLine()
-            if (currentLineLength > 0) {
-                outputStream.newLine()
-                currentLineLength = 0
-            }
-            continue
-        }
-        for (word in line.split(" ")) {
-            if (currentLineLength > 0) {
-                if (word.length + currentLineLength >= lineLength) {
-                    outputStream.newLine()
-                    currentLineLength = 0
-                } else {
-                    outputStream.write(" ")
-                    currentLineLength++
-                }
-            }
-            outputStream.write(word)
-            currentLineLength += word.length
-        }
-    }
-    outputStream.close()
+    TODO()
 }
-
 /**
  * Средняя
  *
@@ -179,30 +153,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> {
-    val result = mutableMapOf<String, Int>()
-    val wordList = mutableMapOf<String, Int>()
-    var count = 0
-    val text = File(inputName).readText().toLowerCase().split(Regex("""[^a-zа-яё]+"""))
-    for (word in text) {
-        if (wordList[word] != null) {
-            wordList[word] = wordList[word]!! + 1
-        } else {
-            wordList[word] = 1
-        }
-    }
-    wordList.remove("")
-    wordList.toList().sortedByDescending { (_, value) -> value }.toMap().toMutableMap()
-    for ((key, value) in wordList) {
-        if (count == 20) {
-            return result
-        } else {
-            result[key] = value
-            count += 1
-        }
-    }
-    return result
-}
+fun top20Words(inputName: String): Map<String, Int> = TODO()
 
 /**
  * Средняя
