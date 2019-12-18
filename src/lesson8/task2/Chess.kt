@@ -43,8 +43,8 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     if ((notation.length != 2) && (isNum(notation[1].toString()))) throw IllegalArgumentException()
-    val numLetter = listOf("a", "b", "c", "d", "e", "f", "g", "h")
-    return Square(numLetter.indexOf((notation[0] + 1).toString()), notation[1].toString().toInt())
+    val numLetter = listOf("", "a", "b", "c", "d", "e", "f", "g", "h")
+    return Square(numLetter.indexOf((notation[0]).toString()), notation[1].toString().toInt())
 }
 
 
@@ -72,11 +72,10 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if ((start.inside() && (end.inside()))) {
-        if (start == end) return 0
-        if ((start.column == end.column) || (start.row == end.row)) return 1
-        return 2
-    } else throw IllegalArgumentException()
+    if (!start.inside() && !start.inside()) throw IllegalArgumentException()
+    if (start == end) return 0
+    if ((start.column == end.column) || (start.row == end.row)) return 1
+    return 2
 }
 
 /**
@@ -185,8 +184,8 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         return result
     }
     result.add(start)
-    if (x == -1) x = 8
-    if (y == -1) y = 8
+//    if (x == -1) x = 8
+//    if (y == -1) y = 8
     if ((start.column != end.column) && (start.row != end.row)) {
         if ((x < end.column) && (y < end.row)) {
             while ((x != end.column) && (y != end.row)) {
