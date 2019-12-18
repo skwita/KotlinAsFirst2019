@@ -2,6 +2,9 @@
 
 package lesson8.task2
 
+import java.lang.IllegalArgumentException
+
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -22,7 +25,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (!inside()) return ""
+        val numLetter = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+        val temp = numLetter[column - 1]
+        return "$temp$row"
+    }
 }
 
 /**
@@ -32,7 +40,12 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (notation.length != 2) throw IllegalArgumentException()
+    val numLetter = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+    return Square(numLetter.indexOf((notation[0] + 1).toString()), notation[1].toString().toInt())
+}
+
 
 /**
  * Простая
@@ -57,7 +70,11 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (start == end) return 0
+    if ((start.column == end.column) || (start.row == end.row)) return 1
+    return 2
+}
 
 /**
  * Средняя
@@ -156,7 +173,60 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    val result = mutableListOf<Square>()
+    var x = start.column
+    var y = start.row
+    if ((start.column == end.column) && (start.row == end.row)) {
+        result.add(start)
+        return result
+    }
+    result.add(start)
+    if (x == -1) x = 8
+    if (y == -1) y = 8
+    if ((start.column != end.column) && (start.row != end.row)) {
+        if ((x < end.column) && (y < end.row)) {
+            while ((x != end.column) && (y != end.row)) {
+                x++
+                y++
+                result.add(Square(x, y))
+            }
+        } else if ((x < end.column) && (y > end.row)) {
+            while ((x != end.column) && (y != end.row)) {
+                x++
+                y--
+                result.add(Square(x, y))
+            }
+        } else if ((x > end.column) && (y < end.row)) {
+            while ((x != end.column) && (y != end.row)) {
+                x--
+                y++
+                result.add(Square(x, y))
+            }
+        } else if ((x > end.column) && (y > end.row)) {
+            while ((x != end.column) && (y != end.row)) {
+                x--
+                y--
+                result.add(Square(x, y))
+            }
+        }
+        if (x == end.column) {
+            while (y != end.row) {
+                if (y < end.row) y++
+                else y--
+                result.add(Square(x, y))
+            }
+        } else if (y == end.row) {
+            while (x != end.column) {
+                if (x < end.column) x++
+                else x--
+                result.add(Square(x, y))
+            }
+        }
+        return result
+    }
+    return result
+}
 
 /**
  * Сложная
