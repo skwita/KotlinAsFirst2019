@@ -213,20 +213,19 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
                 result.add(Square(x, y))
             }
         }
-        if (x == end.column) {
-            while (y != end.row) {
-                if (y < end.row) y++
-                else y--
-                result.add(Square(x, y))
-            }
-        } else if (y == end.row) {
-            while (x != end.column) {
-                if (x < end.column) x++
-                else x--
-                result.add(Square(x, y))
-            }
+    }
+    if (x == end.column) {
+        while (y != end.row) {
+            if (y < end.row) y++
+            else y--
+            result.add(Square(x, y))
         }
-        return result
+    } else if (y == end.row) {
+        while (x != end.column) {
+            if (x < end.column) x++
+            else x--
+            result.add(Square(x, y))
+        }
     }
     return result
 }
