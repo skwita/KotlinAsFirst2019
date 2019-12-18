@@ -42,7 +42,7 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if ((notation.length != 2) && (isNum(notation[1].toString()))) throw IllegalArgumentException()
+    if (!((notation.length == 2) && (notation[1] in "12345678") && (notation[0] in "abcdefgh"))) throw IllegalArgumentException()
     val numLetter = listOf("", "a", "b", "c", "d", "e", "f", "g", "h")
     return Square(numLetter.indexOf((notation[0]).toString()), notation[1].toString().toInt())
 }
@@ -72,7 +72,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (!start.inside() && !start.inside()) throw IllegalArgumentException()
+    if ((start.column !in 1..8) || (start.row !in 1..8) || (end.column !in 1..8) || (end.row !in 1..8)) throw IllegalArgumentException()
     if (start == end) return 0
     if ((start.column == end.column) || (start.row == end.row)) return 1
     return 2
