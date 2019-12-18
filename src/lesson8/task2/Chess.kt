@@ -179,13 +179,10 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     val result = mutableListOf<Square>()
     var x = start.column
     var y = start.row
+    result.add(start)
     if ((start.column == end.column) && (start.row == end.row)) {
-        result.add(start)
         return result
     }
-    result.add(start)
-//    if (x == -1) x = 8
-//    if (y == -1) y = 8
     if ((start.column != end.column) && (start.row != end.row)) {
         if ((x < end.column) && (y < end.row)) {
             while ((x != end.column) && (y != end.row)) {
