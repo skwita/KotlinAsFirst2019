@@ -85,8 +85,8 @@ fun isNum(inp: String): Boolean {
 }
 
 fun dateStrToDigit(str: String): String {
-    fun monthToDigit(a: String): Int {
-        return when (a) {
+    fun monthToDigit(a: String): Int =
+        when (a) {
             "января" -> 1
             "февраля" -> 2
             "марта" -> 3
@@ -101,7 +101,7 @@ fun dateStrToDigit(str: String): String {
             "декабря" -> 12
             else -> -1
         }
-    }
+
 
     val parts = str.split(" ")
     val result = mutableListOf<String>()

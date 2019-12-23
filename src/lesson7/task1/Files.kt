@@ -29,10 +29,11 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
+    val text = File(inputName).readLines()
     for (word in substrings) result += word to 0
     for (word in substrings) {
         if (result[word] != 0) continue
-        for (line in File(inputName).readLines()) {
+        for (line in text) {
             val tempWord = word.toLowerCase()
             for (part in line.windowed(size = word.length)) {
                 if (tempWord == part.toLowerCase()) {
@@ -60,7 +61,8 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  */
 fun sibilants(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
+    val text = File(inputName).readLines()
+    for (line in text) {
         for (i in 1 until line.length) {
             if (i == 1) writer.write(line[0].toString())
             if ((line[i - 1] in "ЖжЧчШшЩщ") && (line[i] in "ЫыЮюЯя")) {
